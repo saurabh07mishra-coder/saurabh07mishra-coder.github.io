@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saurabh · AI Video Editor</title>
+<meta name="description" content="Saurabh: Creative Director, AI Video Editor and Motion Graphics. Video Editor at The Rundown AI, ex-Creative Director at Breakdown by Aeos.">
+<meta property="og:title" content="Saurabh · AI Video Editor">
+<meta property="og:description" content="Creative Director / AI Video Editor / Motion Graphics">
+<meta property="og:image" content="media/showreel.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&family=Rubik:wght@800&family=Gochi+Hand&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EDE2; --paper-2:#E9E2D2; --ink:#1E1D1A; --ink-2:#55524A;
+  --lime:#A3C93A; --lime-d:#7FA224; --orange:#F39A1E; --sun:#FFC21A;
+  --display:"Rubik Scribble",system-ui,sans-serif; --hand:"Gochi Hand",cursive;
+  --mono:"Space Mono",ui-monospace,monospace; --body:"DM Sans",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.55;
+  overflow-x:clip;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+
+/* doodles */
+.doodle{position:absolute;pointer-events:none}
+.spin{animation:spin 14s linear infinite}
+.wob{animation:wob 3.2s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes wob{50%{transform:rotate(14deg) scale(1.08)}}
+@media (prefers-reduced-motion:reduce){.spin,.wob,.ticker-track{animation:none!important}}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-family:var(--mono);font-size:13px}
+nav .logo{font-family:var(--hand);font-size:26px;text-decoration:none}
+nav ul{display:flex;gap:22px;list-style:none}
+nav ul a{text-decoration:none;border-bottom:2px solid transparent}
+nav ul a:hover{border-color:var(--orange)}
+@media (max-width:700px){nav ul{display:none}}
+
+/* hero */
+.hero{position:relative;padding:30px 0 70px}
+.hero .creative{font-family:var(--hand);font-size:clamp(26px,3.4vw,40px);margin-left:6%;transform:rotate(-4deg);display:inline-block}
+.hero h1{
+  font-family:var(--display);font-weight:400;font-size:clamp(78px,17vw,230px);line-height:.86;letter-spacing:-.01em;
+  margin:4px 0 14px;
+}
+/* filled crayon letters: solid Rubik underneath, scribble outline on top (same metrics) */
+.sc{position:relative;display:inline-block;color:var(--ink);--fill:var(--lime)}
+.sc::before{content:attr(data-t);position:absolute;inset:0;z-index:-1;font-family:"Rubik",sans-serif;font-weight:800;color:var(--fill);transform:translate(3px,3px)}
+.sc.or{--fill:var(--orange)}
+.hero h1 .sc:nth-child(odd){transform:rotate(-3deg)}
+.hero h1 .sc:nth-child(even){transform:rotate(2.5deg) translateY(6px)}
+.roles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.pill{font-family:var(--mono);font-size:13px;font-weight:700;padding:7px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:3px 3px 0 var(--ink)}
+.pill.o{background:var(--orange)} .pill.l{background:var(--lime)} .pill.s{background:var(--sun)}
+.hero-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:48px;align-items:center}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+
+.prompt{border:2px solid var(--ink);border-radius:14px;background:#FBF8F1;box-shadow:5px 5px 0 var(--ink);overflow:hidden}
+.prompt .bar{display:flex;gap:6px;align-items:center;padding:9px 12px;border-bottom:2px solid var(--ink);background:var(--paper-2);font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.prompt .bar i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);display:inline-block}
+.prompt .bar i:nth-child(1){background:var(--orange)} .prompt .bar i:nth-child(2){background:var(--sun)} .prompt .bar i:nth-child(3){background:var(--lime)}
+.prompt .bar b{margin-left:8px;font-weight:400}
+.prompt .body{padding:18px 18px 20px;font-family:var(--mono);font-size:15px;min-height:150px}
+.prompt .you{color:var(--ink-2)}
+.prompt .typed{font-weight:700}
+.caret{display:inline-block;width:9px;height:18px;background:var(--orange);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.prompt .out{margin-top:14px;font-family:var(--body);font-size:15px;color:var(--ink-2);min-height:48px}
+.hero .lede{font-size:19px;margin-top:22px;max-width:46ch}
+.hero .lede em{font-style:normal;background:linear-gradient(transparent 55%,var(--sun) 55%)}
+
+.reel{position:relative}
+.frame{position:relative;border:3px solid var(--ink);border-radius:16px;overflow:hidden;background:#000;box-shadow:8px 8px 0 var(--ink);transform:rotate(1.2deg)}
+.frame video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+.tape{position:absolute;width:110px;height:30px;background:rgba(255,194,26,.75);top:-14px;left:40%;transform:rotate(-6deg);z-index:2;border-left:2px dashed rgba(0,0,0,.15);border-right:2px dashed rgba(0,0,0,.15)}
+.reel .label{position:absolute;right:8px;bottom:-46px;font-family:var(--hand);font-size:26px;transform:rotate(-3deg)}
+.reel .label svg{vertical-align:middle}
+
+/* play overlay shared */
+.play{position:absolute;inset:0;display:grid;place-items:center;cursor:pointer;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.35));transition:opacity .2s;border:0;width:100%}
+.play span{width:72px;height:72px;border-radius:50%;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink);transition:transform .15s}
+.play:hover span{transform:scale(1.08) rotate(-6deg)}
+.play svg{margin-left:5px}
+.playing .play{opacity:0;pointer-events:none}
+
+/* ticker */
+.ticker{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);background:var(--orange);overflow:hidden;transform:rotate(-1.2deg);margin:40px -20px 0;position:relative;z-index:2}
+.ticker-track{display:flex;width:max-content;animation:tick 38s linear infinite}
+.ticker-track div{display:flex;gap:34px;padding:12px 17px;font-family:var(--mono);font-weight:700;font-size:15px;white-space:nowrap;text-transform:uppercase}
+.ticker-track b{background:var(--ink);color:var(--orange);padding:1px 8px;border-radius:4px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+section{position:relative;padding:110px 0 30px}
+.sec-head{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:46px}
+.sec-head .num{font-family:var(--mono);font-size:13px;font-weight:700;border:2px solid var(--ink);padding:3px 10px;border-radius:6px;background:var(--sun);align-self:center}
+.sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(52px,8vw,96px);line-height:.9}
+.sec-head .note{font-family:var(--hand);font-size:24px;color:var(--ink-2);transform:rotate(-2deg);padding-bottom:6px}
+
+/* shorts */
+.shorts{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+@media (max-width:1000px){.shorts{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.shorts{gap:14px}}
+.card{position:relative}
+.card:nth-child(4n+1) .phone{transform:rotate(-1.6deg)} .card:nth-child(4n+2) .phone{transform:rotate(1.2deg) translateY(10px)}
+.card:nth-child(4n+3) .phone{transform:rotate(-.8deg)} .card:nth-child(4n+4) .phone{transform:rotate(1.8deg) translateY(6px)}
+.phone{position:relative;border:3px solid var(--ink);border-radius:22px;overflow:hidden;background:#000;box-shadow:6px 6px 0 var(--ink)}
+.phone video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
+.card h3{font-family:var(--body);font-weight:700;font-size:17px;line-height:1.25;margin-top:16px}
+.card p{font-size:14.5px;color:var(--ink-2);margin-top:4px}
+.tag{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);margin-top:12px;display:block}
+@media (max-width:480px){.play span{width:54px;height:54px}.card h3{font-size:15px}.card p{font-size:13px}}
+
+/* long */
+.longs{display:grid;gap:56px}
+.long{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;align-items:center}
+.long:nth-child(even){grid-template-columns:1fr 1.5fr}
+.long:nth-child(even) .screen-wrap{order:2}
+@media (max-width:820px){.long,.long:nth-child(even){grid-template-columns:1fr;gap:20px}.long:nth-child(even) .screen-wrap{order:0}}
+.screen{position:relative;border:3px solid var(--ink);border-radius:14px;overflow:hidden;background:#000;box-shadow:7px 7px 0 var(--ink)}
+.long:nth-child(odd) .screen{transform:rotate(-.8deg)} .long:nth-child(even) .screen{transform:rotate(.8deg)}
+.screen video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.screen .chip{position:absolute;left:12px;top:12px;z-index:2;font-family:var(--mono);font-size:11px;font-weight:700;background:var(--sun);border:2px solid var(--ink);border-radius:6px;padding:2px 8px}
+.long .issue{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-2);text-transform:uppercase}
+.long h3{font-family:var(--body);font-size:clamp(24px,3vw,32px);line-height:1.15;margin:8px 0 10px}
+.long p{color:var(--ink-2);max-width:42ch}
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--mono);font-weight:700;font-size:14px;text-decoration:none;padding:10px 16px;border:2px solid var(--ink);border-radius:10px;background:var(--lime);box-shadow:3px 3px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.btn.o{background:var(--orange)} .btn.p{background:var(--paper)}
+
+/* story */
+.story{display:grid;grid-template-columns:1fr 1.1fr;gap:56px}
+@media (max-width:900px){.story{grid-template-columns:1fr;gap:40px}}
+.bio{font-size:19px}
+.bio p+p{margin-top:14px}
+.bio .hand{font-family:var(--hand);font-size:28px;line-height:1.2;color:var(--ink)}
+.timeline{list-style:none;position:relative;padding-left:34px}
+.timeline:before{content:"";position:absolute;left:10px;top:8px;bottom:8px;border-left:3px dashed var(--ink)}
+.timeline li{position:relative;padding:0 0 28px}
+.timeline li:before{content:"";position:absolute;left:-32px;top:4px;width:18px;height:18px;border:3px solid var(--ink);border-radius:50%;background:var(--paper)}
+.timeline li.now:before{background:var(--lime);box-shadow:0 0 0 5px rgba(163,201,58,.35)}
+.timeline .when{font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ink-2)}
+.timeline .what{font-weight:700;font-size:19px;line-height:1.3}
+.timeline .where{color:var(--ink-2);font-size:15px}
+
+/* stack */
+.stack{display:flex;flex-wrap:wrap;gap:12px}
+.stack .pill{font-size:14px;padding:9px 16px;transition:transform .12s}
+.stack .pill:hover{transform:rotate(-4deg) scale(1.05)}
+.stack-note{font-family:var(--hand);font-size:24px;margin-top:26px;color:var(--ink-2)}
+
+/* offscreen */
+.off{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media (max-width:760px){.off{grid-template-columns:1fr}}
+.off div{border:2.5px solid var(--ink);border-radius:18px;padding:24px;background:#FBF8F1;box-shadow:5px 5px 0 var(--ink)}
+.off div:nth-child(1){transform:rotate(-1.5deg);background:#EEF5D9}
+.off div:nth-child(2){transform:rotate(1deg);background:#FDEBD0}
+.off div:nth-child(3){transform:rotate(-.6deg);background:#FFF3C9}
+.off h3{font-family:var(--hand);font-weight:400;font-size:30px;line-height:1.1;margin:10px 0 6px}
+.off p{font-size:15px;color:var(--ink-2)}
+
+/* contact */
+.contact{text-align:center;padding:120px 0 80px}
+.contact h2{font-family:var(--display);font-weight:400;font-size:clamp(76px,15vw,190px);line-height:.85;transform:rotate(-2deg)}
+.contact .sub{font-family:var(--hand);font-size:28px;margin:18px 0 34px}
+.contact .links{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
+.contact .btn{font-size:15px;padding:13px 20px}
+footer{border-top:3px solid var(--ink);padding:22px 0;font-family:var(--mono);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- reusable doodles -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 100 100"><path d="M50 6 C54 30 58 36 94 40 C66 52 62 58 70 92 C54 70 46 70 28 93 C36 62 32 54 6 42 C40 36 46 30 50 6Z" fill="#F39A1E" stroke="#1E1D1A" stroke-width="4" stroke-linejoin="round"/><path d="M40 40 L60 60 M58 38 L42 62" stroke="#FFC21A" stroke-width="3" opacity=".7"/></symbol>
+  <symbol id="spiral" viewBox="0 0 100 100"><path d="M52 50c0-3-4-4-6-2-4 3-1 10 5 10 8 0 12-9 9-16-4-9-17-11-24-4-9 9-6 25 6 30 14 6 30-3 32-18 2-17-12-31-29-31" fill="none" stroke="#F39A1E" stroke-width="7" stroke-linecap="round"/></symbol>
+  <symbol id="arrow" viewBox="0 0 80 60"><path d="M74 8C56 6 30 14 18 44M18 44l-2-16M18 44l15-8" fill="none" stroke="#1E1D1A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pi" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="#1E1D1A"/></symbol>
+</svg>
+
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#">saurabh.</a>
+    <ul>
+      <li><a href="#shorts">Short form</a></li>
+      <li><a href="#long">Long form</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <svg class="doodle spin" style="width:70px;right:4%;top:20px"><use href="#spiral"/></svg>
+    <svg class="doodle wob" style="width:54px;right:3%;top:250px"><use href="#star"/></svg>
+    <span class="creative">creative director, cutting with AI</span>
+    <h1 aria-label="Saurabh"><span class="sc" data-t="SAU">SAU</span><span class="sc" data-t="RABH">RABH</span></h1>
+    <div class="roles">
+      <span class="pill l">Creative Director</span>
+      <span class="pill o">AI Video Editor</span>
+      <span class="pill s">Motion Graphics</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <div class="prompt" aria-live="polite">
+          <div class="bar"><i></i><i></i><i></i><b>saurabh — edit.session</b></div>
+          <div class="body">
+            <span class="you">&gt; </span><span class="typed" id="typed"></span><span class="caret"></span>
+            <div class="out" id="out"></div>
+          </div>
+        </div>
+        <p class="lede">Editor since 2022. Ran the edit room at <em>Breakdown by Aeos</em> for three years, now cutting at <em>The Rundown AI</em>, where the stories and the workflow are both about AI.</p>
+      </div>
+
+      <div class="reel">
+        <div class="tape"></div>
+        <div class="frame media">
+          <video src="media/showreel.mp4" poster="media/showreel.jpg" preload="none" playsinline></video>
+          <button class="play" aria-label="Play showreel"><span><svg width="30" height="30"><use href="#pi"/></svg></span></button>
+        </div>
+        <div class="label"><svg width="56" height="42" style="transform:scaleX(-1) rotate(10deg)"><use href="#arrow"/></svg> showreel 2026, hit play</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<div class="wrap">
+  <section id="shorts">
+    <svg class="doodle wob" style="width:46px;right:2%;top:70px"><use href="#star"/></svg>
+    <div class="sec-head reveal">
+      <span class="num">01</span>
+      <h2><span class="sc" data-t="Short form">Short form</span></h2>
+      <span class="note">built to stop the thumb</span>
+    </div>
+    <div class="shorts" id="shortGrid"></div>
+  </section>
+
+  <section id="long">
+    <svg class="doodle spin" style="width:60px;left:-10px;top:60px"><use href="#spiral"/></svg>
+    <div class="sec-head reveal">
+      <span class="num">02</span>
+      <h2><span class="sc" data-t="Long form">Long form</span></h2>
+      <span class="note">20–30 min docs. Here's the hook.</span>
+    </div>
+    <div class="longs" id="longList"></div>
+  </section>
+
+  <section id="story">
+    <div class="sec-head reveal">
+      <span class="num">03</span>
+      <h2><span class="sc" data-t="The story">The story</span></h2>
+    </div>
+    <div class="story">
+      <div class="bio reveal">
+        <p class="hand">I started as a video editor in 2022, and I haven't stopped cutting since.</p>
+        <p>I went from editor to senior editor, then took over as Channel Manager and Creative Director at <b>Breakdown by Aeos</b>, a business-explainer channel, where I ran the creative for three years: scripts to screen, long docs to shorts.</p>
+        <p>In January 2026 I joined <b>The Rundown AI</b> as a video editor. I build ad iterations and AI-assisted edit workflows that turn one winning video into many.</p>
+      </div>
+      <ol class="timeline reveal">
+        <li><div class="when">2022</div><div class="what">Video Editor</div><div class="where">First cuts, first deadlines</div></li>
+        <li><div class="when">Next</div><div class="what">Senior Video Editor</div><div class="where">Long-form docs and motion graphics</div></li>
+        <li><div class="when">3 years</div><div class="what">Channel Manager / Creative Director</div><div class="where">Breakdown by Aeos</div></li>
+        <li class="now"><div class="when">Jan 2026 → now</div><div class="what">Video Editor</div><div class="where">The Rundown AI</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="stack">
+    <svg class="doodle wob" style="width:50px;right:6%;top:90px"><use href="#star"/></svg>
+    <div class="sec-head reveal">
+      <span class="num">04</span>
+      <h2><span class="sc" data-t="The stack">The stack</span></h2>
+      <span class="note">human taste, AI speed</span>
+    </div>
+    <div class="stack reveal" id="stackList"></div>
+    <p class="stack-note reveal">I use AI for the busywork, so more of the time goes into taste.</p>
+  </section>
+
+  <section id="off">
+    <div class="sec-head reveal">
+      <span class="num">05</span>
+      <h2><span class="sc" data-t="Off screen">Off screen</span></h2>
+    </div>
+    <div class="off reveal">
+      <div>
+        <svg width="54" height="54" viewBox="0 0 60 60"><rect x="6" y="18" width="48" height="34" rx="4" fill="#A3C93A" stroke="#1E1D1A" stroke-width="3"/><path d="M6 18l6-11 9 4-6 11M21 11l9 4-5 9M36 15l9 4" fill="none" stroke="#1E1D1A" stroke-width="3" stroke-linejoin="round"/><path d="M26 28v14l11-7z" fill="#1E1D1A"/></svg>
+        <h3>Movies</h3><p>A good film is where most of my cutting instincts come from.</p>
+      </div>
+      <div>
+        <svg width="54" height="54" viewBox="0 0 60 60"><path d="M8 50c8-6 6-16 14-18s10 8 18 4 6-16 14-18" fill="none" stroke="#1E1D1A" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/><path d="M46 6c-6 0-10 5-10 10 0 7 10 16 10 16s10-9 10-16c0-5-4-10-10-10z" fill="#F39A1E" stroke="#1E1D1A" stroke-width="3"/><circle cx="46" cy="16" r="3.5" fill="#1E1D1A"/></svg>
+        <h3>Walking new cities</h3><p>I explore on foot, with no plan and a camera roll that keeps growing.</p>
+      </div>
+      <div>
+        <svg width="54" height="54" viewBox="0 0 60 60"><path d="M8 30h40a0 0 0 0 1 0 0c0 11-9 20-20 20s-20-9-20-20z" fill="#FFC21A" stroke="#1E1D1A" stroke-width="3"/><path d="M48 32h8" stroke="#1E1D1A" stroke-width="4" stroke-linecap="round"/><path d="M20 22c-3-4 3-6 0-11M30 22c-3-4 3-6 0-11M40 22c-3-4 3-6 0-11" fill="none" stroke="#1E1D1A" stroke-width="3" stroke-linecap="round"/></svg>
+        <h3>Cooking (sometimes)</h3><p>Same rule as editing: taste as you go.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact" id="contact">
+    <h2 class="reveal"><span class="sc or" data-t="SAY HI">SAY HI</span></h2>
+    <p class="sub reveal">Got a story that needs a sharper cut?</p>
+    <div class="links reveal">
+      <a class="btn o" href="mailto:mainsaurabh29@gmail.com">✉ mainsaurabh29@gmail.com</a>
+      <a class="btn" href="https://wa.me/919870118427" target="_blank" rel="noopener">WhatsApp +91 98701 18427</a>
+      <a class="btn p" href="tel:+919870118427">Call</a>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Saurabh</span>
+    <span>Cut in Premiere · assembled with AI · hosted on GitHub</span>
+  </footer>
+</div>
+
+<script>
+/* ─── Edit your work here ─────────────────────────────────── */
+const SHORTS = [
+  { src:"media/short1", title:"Cross-Border Payments: India's next big sector", line:"A data-heavy story told with a 3D globe and animated charts.", tag:"Breakdown · Reel" },
+  { src:"media/short2", title:"Inside India's ₹67,000 Cr Cola War",            line:"Brand-war energy with punchy kinetic type.",                    tag:"Breakdown · Reel" },
+  { src:"media/short3", title:"The Indian Luxury Consumer, decoded",           line:"Customer profiles turned into motion infographics.",            tag:"Breakdown · Reel" },
+  { src:"media/short4", title:"Her Memory",                                     line:"A cinematic short adapted from Murakami's Norwegian Wood.",     tag:"Personal · Short film" },
+];
+const LONGS = [
+  { src:"media/long1", title:"Why India Is Winning the AI Race (Without Building ChatGPT)", line:"A 20-minute deep dive into India's AI play, built from a Bond Capital report.", url:"https://www.youtube.com/watch?v=v7sWkcIn4nA" },
+  { src:"media/long2", title:"How India Can Build a GTA 6-Level Game, with Varun Mayya",    line:"A 30-minute documentary on India's shot at AAA gaming.",          url:"https://www.youtube.com/results?search_query=How+India+can+build+a+Grand+Theft+Auto+6+like+game+Varun+Mayya+Breakdown" },
+  { src:"media/long3", title:"India's Deep Tech Revolution: 20× Growth in 7 Years",          line:"Rockets, chips and the report behind them, cut into a 20-minute breakdown.", url:"https://www.youtube.com/results?search_query=How+India+is+bringing+Deep+Tech+Revolution+Breakdown" },
+];
+const STACK = ["Claude","ChatGPT","Midjourney","Runway","Kling","ElevenLabs","Whisper captions","Premiere Pro","After Effects","Photoshop","Canva","FFmpeg + Python"];
+const PROMPTS = [
+  ["turn one winning ad into 10 iterations", "→ hooks rewritten · captions synced · 10 cuts exported ✓"],
+  ["explain a 40-page report in 20 minutes", "→ script, motion graphics, a documentary edit ✓"],
+  ["make it stop the scroll", "→ first 2 seconds rebuilt ✓"],
+];
+const TICKER = ["<b>LATEST</b> Saurabh joins The Rundown AI","3 yrs creative-directing Breakdown by Aeos","<b>NEW</b> showreel 2026 is live","short form · long form · motion graphics","AI-assisted edit pipelines","<b>OPEN</b> to stories worth cutting"];
+/* ──────────────────────────────────────────────────────────── */
+
+const playIcon = '<span><svg width="30" height="30"><use href="#pi"/></svg></span>';
+document.getElementById("shortGrid").innerHTML = SHORTS.map(s => `
+  <article class="card reveal">
+    <div class="phone media">
+      <video src="${s.src}.mp4" poster="${s.src}.jpg" preload="none" playsinline></video>
+      <button class="play" aria-label="Play ${s.title}">${playIcon}</button>
+    </div>
+    <span class="tag">${s.tag}</span>
+    <h3>${s.title}</h3><p>${s.line}</p>
+  </article>`).join("");
+
+document.getElementById("longList").innerHTML = LONGS.map((l,i) => `
+  <article class="long reveal">
+    <div class="screen-wrap"><div class="screen media">
+      <span class="chip">45s HOOK</span>
+      <video src="${l.src}.mp4" poster="${l.src}.jpg" preload="none" playsinline></video>
+      <button class="play" aria-label="Play preview of ${l.title}">${playIcon}</button>
+    </div></div>
+    <div>
+      <span class="issue">Breakdown · Ep. ${String(i+1).padStart(2,"0")}</span>
+      <h3>${l.title}</h3><p>${l.line}</p>
+      <a class="btn" href="${l.url}" target="_blank" rel="noopener">Watch the full film ↗</a>
+    </div>
+  </article>`).join("");
+
+document.getElementById("stackList").innerHTML = STACK.map((t,i) =>
+  `<span class="pill ${["l","o","s",""][i%4]}">${t}</span>`).join("");
+
+const tk = TICKER.map(t => `<span>${t}</span><span>✦</span>`).join("");
+document.getElementById("ticker").innerHTML = `<div>${tk}</div><div>${tk}</div>`;
+
+/* one video at a time */
+document.querySelectorAll(".media").forEach(box => {
+  const v = box.querySelector("video"), btn = box.querySelector(".play");
+  btn.addEventListener("click", () => { v.controls = true; v.play(); });
+  v.addEventListener("play", () => {
+    box.classList.add("playing");
+    document.querySelectorAll(".media video").forEach(o => { if (o !== v) o.pause(); });
+  });
+  v.addEventListener("ended", () => box.classList.remove("playing"));
+});
+
+/* prompt typer */
+const typed = document.getElementById("typed"), out = document.getElementById("out");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+(async () => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { typed.textContent = PROMPTS[0][0]; out.textContent = PROMPTS[0][1]; return; }
+  for (let i = 0; ; i = (i + 1) % PROMPTS.length) {
+    const [p, r] = PROMPTS[i];
+    for (const ch of p) { typed.textContent += ch; await sleep(45); }
+    await sleep(500); out.textContent = r; await sleep(2600);
+    out.textContent = "";
+    while (typed.textContent) { typed.textContent = typed.textContent.slice(0, -1); await sleep(18); }
+    await sleep(300);
+  }
+})();
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
