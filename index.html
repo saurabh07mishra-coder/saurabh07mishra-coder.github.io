@@ -333,15 +333,15 @@ footer{border-top:3px solid var(--ink);padding:22px 0;font-family:var(--mono);fo
 <script>
 /* ─── Edit your work here ─────────────────────────────────── */
 const SHORTS = [
-  { src:"media/short1", title:"IndiGo's Playbook for a ₹1.2 Lakh Cr Industry", line:"Aviation history told through motion-graphic cards and fast cuts.", tag:"Breakdown · Reel" },
+  { src:"media/short1", title:"What the Indian Luxury Consumer Wants in 2024", line:"India's luxury boom, cut fast with collage-style graphics.", tag:"Breakdown · Reel" },
   { src:"media/short2", title:"Inside India's ₹67,000 Cr Cola War",            line:"Brand-war energy with punchy kinetic type.",                    tag:"Breakdown · Reel" },
-  { src:"media/short3", title:"The Indian Luxury Consumer, decoded",           line:"Customer profiles turned into motion infographics.",            tag:"Breakdown · Reel" },
+  { src:"media/short3", title:"Who Luxury Brands Should Target in India",      line:"Buyer profiles turned into motion infographics.",            tag:"Breakdown · Reel" },
   { src:"media/short4", title:"What's Next for ₹40,000 Cr Quick Commerce",       line:"Twenty years of Indian e-commerce in one blue, kinetic minute.", tag:"Breakdown · Reel" },
 ];
 const LONGS = [
-  { src:"media/long1", title:"Why India Is Winning the AI Race (Without Building ChatGPT)", line:"A 20-minute deep dive into India's AI play, built from a Bond Capital report.", url:"https://www.youtube.com/watch?v=v7sWkcIn4nA" },
+  { src:"media/long1", title:"India's ₹1.8 Lakh Crore Rapid Commerce Opportunity", line:"A 19-minute breakdown of how quick commerce is rewiring Indian retail.", url:"https://www.youtube.com/results?search_query=India%E2%80%99s+1.8+Lakh+CRORE+rapid+commerce+opportunity+Breakdown" },
   { src:"media/long2", title:"How India Can Build a GTA 6-Level Game, with Varun Mayya",    line:"A 30-minute documentary on India's shot at AAA gaming.",          url:"https://www.youtube.com/results?search_query=How+India+can+build+a+Grand+Theft+Auto+6+like+game+Varun+Mayya+Breakdown" },
-  { src:"media/long3", title:"India's Deep Tech Revolution: 20× Growth in 7 Years",          line:"Rockets, chips and the report behind them, cut into a 20-minute breakdown.", url:"https://www.youtube.com/results?search_query=How+India+is+bringing+Deep+Tech+Revolution+Breakdown" },
+  { src:"media/long3", title:"How to Build Serious Wealth in India",                         line:"A 20-minute documentary on how Indians actually build wealth, told through motion graphics.", url:"https://www.youtube.com/results?search_query=How+to+Build+Serious+Wealth+in+India+The+Untold+Secrets+to+Success+in+2025" },
 ];
 const STACK = ["Claude","ChatGPT","Midjourney","Runway","Kling","ElevenLabs","Whisper captions","Premiere Pro","After Effects","Photoshop","Canva","FFmpeg + Python"];
 const PROMPTS = [
@@ -356,7 +356,7 @@ const playIcon = '<span><svg width="30" height="30"><use href="#pi"/></svg></spa
 document.getElementById("shortGrid").innerHTML = SHORTS.map(s => `
   <article class="card reveal">
     <div class="phone media">
-      <video src="${s.src}.mp4?v=2" poster="${s.src}.jpg?v=2" preload="none" playsinline></video>
+      <video src="${s.src}.mp4?v=3" poster="${s.src}.jpg?v=3" preload="none" playsinline></video>
       <button class="play" aria-label="Play ${s.title}">${playIcon}</button>
     </div>
     <span class="tag">${s.tag}</span>
@@ -367,7 +367,7 @@ document.getElementById("longList").innerHTML = LONGS.map((l,i) => `
   <article class="long reveal">
     <div class="screen-wrap"><div class="screen media">
       <span class="chip">45s HOOK</span>
-      <video src="${l.src}.mp4" poster="${l.src}.jpg" preload="none" playsinline></video>
+      <video src="${l.src}.mp4?v=2" poster="${l.src}.jpg?v=2" preload="none" playsinline></video>
       <button class="play" aria-label="Play preview of ${l.title}">${playIcon}</button>
     </div></div>
     <div>
